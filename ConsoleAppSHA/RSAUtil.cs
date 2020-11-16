@@ -11,7 +11,7 @@ namespace ConsoleAppSHA
     public   class RSAUtil
     {
 
-        RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+        RSACryptoServiceProvider rsa ;
         public string KeyPublish;
         public string KeyPrivate;
 
@@ -24,6 +24,8 @@ namespace ConsoleAppSHA
                 KeyContainerName = KeyName
             };
 
+            var rsa = new RSACryptoServiceProvider(parameters);
+
             KeyPublish = rsa.ToXmlString(false); // false to get the public key   
             KeyPrivate = rsa.ToXmlString(true); // true to get the private key   
         }
@@ -32,6 +34,23 @@ namespace ConsoleAppSHA
         {
             KeyPublish = publicKey;
             KeyPrivate = privateKey;
+        }
+
+        public void ChangeKey(string KeyName)
+        {
+
+            // Create the CspParameters object and set the key container
+            // name used to store the RSA key pair.
+            var parameters = new CspParameters
+            {
+                KeyContainerName = KeyName
+            };
+
+            var rsa = new RSACryptoServiceProvider(parameters);
+
+            KeyPublish = rsa.ToXmlString(false); // false to get the public key   
+            KeyPrivate = rsa.ToXmlString(true); // true to get the private key   
+
         }
 
 
