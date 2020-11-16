@@ -12,6 +12,22 @@ namespace ConsoleAppSHA
     {
         static void Main(string[] args)
         {
+
+            // Create a key and save it in a container.
+            GenKey_SaveInContainer("MyKeyContainer");
+
+            // Retrieve the key from the container.
+            GetKeyFromContainer("MyKeyContainer");
+
+            // Delete the key from the container.
+            DeleteKeyFromContainer("MyKeyContainer");
+
+            // Create a key and save it in a container.
+            GenKey_SaveInContainer("MyKeyContainer");
+
+            // Delete the key from the container.
+            DeleteKeyFromContainer("MyKeyContainer");
+
             // Create an instance of the RSA algorithm class  
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
             // Get the public keyy   
@@ -19,11 +35,69 @@ namespace ConsoleAppSHA
             string privateKey = rsa.ToXmlString(true); // true to get the private key   
 
             // Call the encryptText method   
-           // EncryptText(publicKey, "Hello from C# Corner", "encryptedData.dat");
+            // EncryptText(publicKey, "Hello from C# Corner", "encryptedData.dat");
 
             // Call the decryptData method and print the result on the screen   
             Console.WriteLine("Decrypted message: {0}", DecryptData(privateKey, "encryptedData.dat"));
         }
+
+        private static void GenKey_SaveInContainer(string containerName)
+        {
+            // Create the CspParameters object and set the key container
+            // name used to store the RSA key pair.
+            var parameters = new CspParameters
+            {
+                KeyContainerName = containerName
+            };
+
+            // Create a new instance of RSACryptoServiceProvider that accesses
+            // the key container MyKeyContainerName.
+             var rsa = new RSACryptoServiceProvider(parameters);
+
+            // Display the key information to the console.
+            Console.WriteLine($"Key added to container: \n  {rsa.ToXmlString(true)}");
+        }
+
+        private static void GetKeyFromContainer(string containerName)
+        {
+            // Create the CspParameters object and set the key container
+            // name used to store the RSA key pair.
+            var parameters = new CspParameters
+            {
+                KeyContainerName = containerName
+            };
+
+            // Create a new instance of RSACryptoServiceProvider that accesses
+            // the key container MyKeyContainerName.
+             var rsa = new RSACryptoServiceProvider(parameters);
+
+            // Display the key information to the console.
+            Console.WriteLine($"Key retrieved from container : \n {rsa.ToXmlString(true)}");
+        }
+
+        private static void DeleteKeyFromContainer(string containerName)
+        {
+            // Create the CspParameters object and set the key container
+            // name used to store the RSA key pair.
+            var parameters = new CspParameters
+            {
+                KeyContainerName = containerName
+            };
+
+            // Create a new instance of RSACryptoServiceProvider that accesses
+            // the key container.
+             var rsa = new RSACryptoServiceProvider(parameters)
+            {
+                // Delete the key entry in the container.
+                PersistKeyInCsp = false
+            };
+
+            // Call Clear to release resources and delete the key from the container.
+            rsa.Clear();
+
+            Console.WriteLine("Key deleted.");
+        }
+
 
 
         // Create a method to encrypt a text and save it to a specific file using a RSA algorithm public key   

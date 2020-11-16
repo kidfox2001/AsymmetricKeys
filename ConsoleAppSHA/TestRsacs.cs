@@ -11,15 +11,15 @@ namespace ConsoleAppSHA
     {
         static void Main(string[] args)
         {
-            var KeyPublish = File.ReadAllText("KeyPublish.dat");
-            var KeyPrivate = File.ReadAllText("KeyPrivate.dat");
+            //var KeyPublish = File.ReadAllText("KeyPublish.dat");
+            //var KeyPrivate = File.ReadAllText("KeyPrivate.dat");
 
-            RSAUtil rsa = new RSAUtil(KeyPublish, KeyPrivate);
+            RSAUtil rsa = new RSAUtil("baby");
 
-            //File.WriteAllText( "KeyPublish.dat", rsa.KeyPrivate);
-            //File.WriteAllText( "KeyPrivate.dat" , rsa.KeyPrivate);
+            File.WriteAllText("KeyPublish.dat", rsa.KeyPrivate);
+            File.WriteAllText("KeyPrivate.dat", rsa.KeyPrivate);
 
-           var encryptData =  rsa.EncryptData("hello peter && near");
+            var encryptData =  rsa.EncryptData("hello peter && near");
            var result =   rsa.DecryptData(encryptData);
 
 
